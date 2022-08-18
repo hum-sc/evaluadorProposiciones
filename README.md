@@ -10,7 +10,7 @@ Realizar un programa que realiza las tablas de verdad e indique el resultado de 
 ### p or r y !q or !p
 ((p or r) y !q) or !p
 
-(p and (r or q))
+(p and (r or q)) or !(r or q)
 
 - si como segundo parametro se da q, q o r, esa operacion se cierra
 - si despues de que se cierra, el usuario selecciona and o or, se crea otra operacion en la que como primer parametro tenga la operacion recien cerrada.
@@ -75,4 +75,44 @@ Selecciona una opcion para añadir
 5. v
 9. Treminar
 
+### Pantalla 6
+Los resultados son:
 
+|p | q| r | operacion|
+|---|---|---|---|
+|1|1|1|x|
+|1|1|0|x|
+|1|0|1|x
+|1|0|0|x
+|0|1|1|x
+|0|1|0|x
+|0|0|1|x
+|0|0|0|x
+
+
+q and r
+
+AND
+toString(){
+    return izquierdo.toString+"and"+derecho.toString
+}
+
+OR 
+toString(){
+    return izquierdo.toString()+"or"+derecho.toString
+}
+
+impresos["qandr"][0]= operacion.efectuar() ? "1" : "0";
+impresos[["qandr"][1]= operacion.efectuar() ? "1" : "0";
+
+if (impresos["qandr"] == "qandr")
+
+
+imprimir tabla (){
+    para cada operacion
+        recorrer valores
+}
+
+para()
+
+Estoy en mi rama
