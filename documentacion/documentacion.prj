@@ -1,6 +1,6 @@
 format 224
 "documentacion"
-  revision 2
+  revision 3
   modified_by 2 "hum-s"
 
 
@@ -103,7 +103,6 @@ format 224
 	idl_decl ""
 	mysql_decl ""
 	MysqlColumn
-	get_oper operation_ref 128130 // getRight
 	set_oper operation_ref 128386 // setRight
       end
 
@@ -187,7 +186,6 @@ format 224
 	
 	
       end
-
     end
 
     class 128514 "Base"
@@ -342,6 +340,40 @@ format 224
       explicit_switch_type ""
       mysql_decl ""
       
+      operation 136578 "showTable"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "table" explicit_type "HashMap"
+	  param in name "message" explicit_type "String"
+	
+	
+	
+	
+	
+      end
+
+      operation 136706 "showMessage"
+	public explicit_return_type ""
+	nparams 1
+	  param in name "mesage" explicit_type "String"
+	
+	
+	
+	
+	
+      end
+
+      operation 136962 "showInput"
+	public explicit_return_type ""
+	nparams 2
+	  param in name "message" explicit_type "String"
+	  param in name "options" explicit_type "int[]"
+	
+	
+	
+	
+	
+      end
     end
 
     class 129282 "Controller"
@@ -417,6 +449,16 @@ format 224
       end
 
       operation 130050 "addOr"
+	public explicit_return_type ""
+	nparams 0
+	
+	
+	
+	
+	
+      end
+
+      operation 137090 "carryOut"
 	public explicit_return_type ""
 	nparams 0
 	
