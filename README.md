@@ -43,6 +43,9 @@ Selecciona una opcion para añadir
 5. v
 6. ¬
 7. (
+8.)
+9.Aceptar
+0.Finalizar proposición
 
 ### Pantalla 3
 
