@@ -119,3 +119,7 @@ imprimir tabla (){
 para()
 
 Estoy en mi rama
+
+## showInput()
+Va a recibir una instruccion, y un arreglo de enteros con numeros del 0 al 9, los cuales hacen referencia a alguna opcion, y regresara el numero de la opcion seleccionada por el usuario
+
