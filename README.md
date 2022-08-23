@@ -42,10 +42,7 @@ Selecciona una opcion para añadir
 4. ∧
 5. v
 6. ¬
-7. ( 
-8.) 
-9.Aceptar 
-0.Finalizar proposición 
+7. (
 
 ### Pantalla 3
 
@@ -120,6 +117,4 @@ para()
 
 Estoy en mi rama
 
-## showInput()
-Va a recibir una instruccion, y un arreglo de enteros con numeros del 0 al 9, los cuales hacen referencia a alguna opcion, y regresara el numero de la opcion seleccionada por el usuario
-
+# Flujo de ingreso de datos
