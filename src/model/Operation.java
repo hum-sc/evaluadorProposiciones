@@ -3,15 +3,12 @@
  */
 package model;
 
-import java.util.Map;
-
 /**
  * @author hum-s
  *
  */
 public class Operation {
-	private Operation left, right;
-	public Map<String, boolean[]> values;
+	protected Operation left, right;
 	
 	public Operation() {
 		
