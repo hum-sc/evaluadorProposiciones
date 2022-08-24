@@ -12,4 +12,6 @@ public class Controller {
         r = new Base();
         view = new View();
     }   
+ 
+  
 }
