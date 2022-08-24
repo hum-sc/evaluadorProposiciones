@@ -9,5 +9,10 @@ public class Or extends Operation {
     protected boolean operator(boolean left, boolean right) {
         return ( left || right );
     }
+
+    @Override
+    public String toString() {
+        return left.toString()+"v"+right.toString();
+    }
     
 }

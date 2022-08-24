@@ -2,11 +2,13 @@ package model;
 
 public class Base extends Operation {
     private boolean value;
-    public Base(){
+    char name;
+    public Base(char n){
         super();
         value = false;
+        name = n;
     }
-    public Base(boolean value){
+    public Base(char n, boolean value){
         super();
         this.value = value;
     }
@@ -16,8 +18,13 @@ public class Base extends Operation {
     }
 
     @Override
-    public boolean carryOut() {
+    public boolean carryOut(int i) {
         return this.value;
+    }
+
+    @Override
+    public String toString() {
+        return ""+name;
     }
 
 }
