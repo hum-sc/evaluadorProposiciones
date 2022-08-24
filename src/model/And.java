@@ -10,5 +10,10 @@ public class And extends Operation {
         // TODO Auto-generated method stub
         return ( left && right );
     }
+
+    @Override
+    public String toString() {
+        return left.toString()+"^"+right.toString();
+    }
     
 }

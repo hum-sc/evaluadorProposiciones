@@ -1,11 +1,16 @@
 package model;
 
-public class Closure extends Operation {
-    private Operation operation;
+import java.util.Map;
 
-    public Closure(Operation operation){
+public class Closure extends Operation {
+    protected Operation operation;
+    private Map<String, boolean[]> answers;
+
+    public Closure(Operation operation, Map<String, boolean[]> answers) {
         super();
         this.operation = operation;
+        this.answers = answers;
+        answers.put(this.toString(), new boolean[8]);
     }
 
     public void setOperation(Operation operation) {
@@ -13,7 +18,15 @@ public class Closure extends Operation {
     }
 
     @Override
-    public boolean carryOut() {
-        return operation.carryOut();
+    public boolean carryOut(int i) {
+        boolean[] tmpAnswers = answers.get(this.toString());
+        tmpAnswers[i] = operation.carryOut(i);
+        return tmpAnswers[i];
     }
+    @Override
+    public String toString() {
+        return "("+operation.toString()+")";
+    }
+
+
 }
