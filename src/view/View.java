@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import java.awt.Dimension;
-
+import java.util.Arrays;
 
 public class View{
     private JFrame frame;
@@ -52,7 +52,7 @@ public class View{
     public int showInputOptions(String instruction, int requiredOptions []){
         String options [] = {"p","q","r","^","v","¬","(",")","Evaluar"};
         String data = instruction+"\n";
-        int selected = 1000000000;
+        int selected = 1000;
         
         for(int i = 0; i < requiredOptions.length; i++){
             data +=requiredOptions[i] + ". " + options[requiredOptions[i]]+"\n";
@@ -60,6 +60,9 @@ public class View{
         
         try {
             selected = Integer.parseInt(JOptionPane.showInputDialog(null,data));
+            if(!contains(requiredOptions, selected)) {
+            	throw new Exception("This option is not in the required options");
+            }
         } catch (Exception e) {
             System.out.println(e);
             if(!e.getMessage().equals("Cannot parse null string")){
@@ -70,6 +73,9 @@ public class View{
             //TODO: handle exception
         }
         return selected;
+    }
+    private static boolean contains (final int[] arr, final int key) {
+    	return Arrays.stream(arr).anyMatch(i -> i == key);
     }
 
 }

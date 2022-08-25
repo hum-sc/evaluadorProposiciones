@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Closure extends Operation {
     protected Operation operation;
-    private Map<String, boolean[]> answers;
+    protected Map<String, boolean[]> answers;
 
     public Closure(Operation operation, Map<String, boolean[]> answers) {
         super();

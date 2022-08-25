@@ -230,7 +230,7 @@ public class Controller {
         Operation tmpRight = null;
         if(option == 3 && operation instanceof Or){
             tmpRight = operation.getRight();
-            operation.setRight(createAnd(tmpRight));
+            operation.setRight(selectType(tmpRight, option));
 
             return operation;
         }
