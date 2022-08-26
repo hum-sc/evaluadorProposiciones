@@ -7,7 +7,6 @@ import java.util.concurrent.ExecutionException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -24,38 +23,48 @@ public class View extends JFrame implements ActionListener{
 
     private JLabel header;
     private JButton close;
+    
     private CompletableFuture<String> futureOption;
+
     public View(String title, String headerText){
         super(title);
         
         this.header = new JLabel(headerText);
-
-        this.setDefaultCloseOperation( EXIT_ON_CLOSE );
         this.close = new JButton("Close");
-        this.close.setActionCommand("10");
-        bottomButtonsPanel = new ButtonsPanel(new JButton[]{close}, false);
+
         
+        this.close.setActionCommand("10");
         this.close.addActionListener(this);
+        
+        this.bottomButtonsPanel = new ButtonsPanel(new JButton[]{close}, false);
 
         this.getContentPane().add(this.header, BorderLayout.NORTH);
         this.getContentPane().add(close, BorderLayout.SOUTH);
-    
-        isPushed=false;
+
+        this.setDefaultCloseOperation( EXIT_ON_CLOSE );
+        this.setVisible(true);
+        
+        this.isPushed=false;
     }
     
 
     public void showTable(String header, Map<String, boolean[]> data, String title){
 
         String[] columnNames = new String[data.size()];
+
         String[][] rowData = new String[8][data.size()];
 
         int i = 0;
+        
         for(String key : data.keySet()){
+
             columnNames[i] = key;
-            boolean[] values = data.get(key);
-            for(int j = 0; j < values.length; j++){
-                rowData[j][i] = values[j] ? "1" : "0";
+            boolean[] tmpValues = data.get(key);
+            
+            for(int j = 0; j < tmpValues.length; j++){
+                rowData[j][i] = tmpValues[j] ? "1" : "0";
             }
+
             i++;
         }
 
@@ -63,13 +72,10 @@ public class View extends JFrame implements ActionListener{
         JScrollPane scrollPane = new JScrollPane(table);
         
         scrollPane.setPreferredSize(new Dimension(450,150));
+
         table.setFillsViewportHeight(true);
 
-        try{
-            BorderLayout tmpLayout = (BorderLayout) this.getContentPane().getLayout();
-            remove(tmpLayout.getLayoutComponent(BorderLayout.CENTER));
-        } catch (Exception e){
-        }
+        this.deleteCenterComponent();
 
         this.getContentPane().add(scrollPane, BorderLayout.CENTER);
         
@@ -77,12 +83,11 @@ public class View extends JFrame implements ActionListener{
         this.header.setText(header);
 
         this.pack();
-    }
-    public void showMessage(String message){
-        JOptionPane.showMessageDialog(null,message);
+
     }
 
     public void showInputOptions(String instruction, int requiredOptions []){
+
         JButton[] buttons = new JButton[requiredOptions.length];
 
         String options [] = {"p","q","r","^","v","¬","(",")"};
@@ -90,33 +95,47 @@ public class View extends JFrame implements ActionListener{
         this.header.setText(instruction);
         
         for(int i = 0; i < requiredOptions.length; i++){
+
             buttons[i] = new JButton(options[requiredOptions[i]]);
             buttons[i].setActionCommand(requiredOptions[i]+"");
-        }
 
+        }
+    
         bottomButtonsPanel = new ButtonsPanel(buttons, true);
         bottomButtonsPanel.addActionListener(this);
-        try{
-            BorderLayout tmpLayout = (BorderLayout) this.getContentPane().getLayout();
-            remove(tmpLayout.getLayoutComponent(BorderLayout.CENTER));
-        } catch (Exception e){
-        }
+    
+        this.deleteCenterComponent();
 
         this.getContentPane().add(bottomButtonsPanel, BorderLayout.CENTER);
+        
         this.pack();
     
     }
 
     public int getOption() throws InterruptedException, ExecutionException{
+        
         futureOption = new CompletableFuture<String>();
+        
         int option = Integer.parseInt(futureOption.get());
+        
         return option;
+    }
+
+    private void deleteCenterComponent(){
+        try{
+
+            BorderLayout tmpLayout = (BorderLayout) this.getContentPane().getLayout();
+            remove(tmpLayout.getLayoutComponent(BorderLayout.CENTER));
+            
+        } catch (Exception e){}
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         futureOption.complete(e.getActionCommand());
         isPushed = true;
+        
         if(e.getSource() == this.close){
             System.exit(0);
         }

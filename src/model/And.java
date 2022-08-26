@@ -7,7 +7,6 @@ public class And extends Operation {
 
     @Override
     protected boolean operator(boolean left, boolean right) {
-        // TODO Auto-generated method stub
         return ( left && right );
     }
 
