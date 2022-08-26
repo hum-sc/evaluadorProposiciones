@@ -1,31 +1,54 @@
 package view;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.Arrays;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class View{
-    private JFrame frame;
-    
-    public View(){
-        frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
-        frame.setVisible(true);
-    }
-    public View(String title){
+
+public class View extends JFrame implements ActionListener{
+    private ButtonsPanel bottomButtonsPanel;
+
+    public boolean isPushed;
+
+    private JLabel header;
+    private JButton close;
+    private CompletableFuture<String> futureOption;
+    public View(String title, String headerText){
+        super(title);
         
-    }
+        this.header = new JLabel(headerText);
 
-    public void showTable(String message, Map<String, boolean[]> data, String title){
+        this.setDefaultCloseOperation( EXIT_ON_CLOSE );
+        this.close = new JButton("Close");
+        this.close.setActionCommand("10");
+        bottomButtonsPanel = new ButtonsPanel(new JButton[]{close}, false);
+        
+        this.close.addActionListener(this);
+
+        this.getContentPane().add(this.header, BorderLayout.NORTH);
+        this.getContentPane().add(close, BorderLayout.SOUTH);
+    
+        isPushed=false;
+    }
+    
+
+    public void showTable(String header, Map<String, boolean[]> data, String title){
+
         String[] columnNames = new String[data.size()];
         String[][] rowData = new String[8][data.size()];
+
         int i = 0;
         for(String key : data.keySet()){
             columnNames[i] = key;
@@ -35,47 +58,67 @@ public class View{
             }
             i++;
         }
+
         JTable table = new JTable(rowData, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
+        
         scrollPane.setPreferredSize(new Dimension(450,150));
         table.setFillsViewportHeight(true);
-        JFrame frame = new JFrame(title);
-        frame.add(scrollPane);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+
+        try{
+            BorderLayout tmpLayout = (BorderLayout) this.getContentPane().getLayout();
+            remove(tmpLayout.getLayoutComponent(BorderLayout.CENTER));
+        } catch (Exception e){
+        }
+
+        this.getContentPane().add(scrollPane, BorderLayout.CENTER);
+        
+        this.setTitle(title);
+        this.header.setText(header);
+
+        this.pack();
     }
     public void showMessage(String message){
         JOptionPane.showMessageDialog(null,message);
     }
 
-    public int showInputOptions(String instruction, int requiredOptions []){
-        String options [] = {"p","q","r","^","v","¬","(",")","Evaluar"};
-        String data = instruction+"\n";
-        int selected = 1000;
+    public void showInputOptions(String instruction, int requiredOptions []){
+        JButton[] buttons = new JButton[requiredOptions.length];
+
+        String options [] = {"p","q","r","^","v","¬","(",")"};
+
+        this.header.setText(instruction);
         
         for(int i = 0; i < requiredOptions.length; i++){
-            data +=requiredOptions[i] + ". " + options[requiredOptions[i]]+"\n";
+            buttons[i] = new JButton(options[requiredOptions[i]]);
+            buttons[i].setActionCommand(requiredOptions[i]+"");
         }
-        
-        try {
-            selected = Integer.parseInt(JOptionPane.showInputDialog(null,data));
-            if(!contains(requiredOptions, selected)) {
-            	throw new Exception("This option is not in the required options");
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            if(!e.getMessage().equals("Cannot parse null string")){
-                this.showMessage("El valor ingresado no es valido");
-                selected = this.showInputOptions(instruction, requiredOptions);
-            }
-           
-            //TODO: handle exception
+
+        bottomButtonsPanel = new ButtonsPanel(buttons, true);
+        bottomButtonsPanel.addActionListener(this);
+        try{
+            BorderLayout tmpLayout = (BorderLayout) this.getContentPane().getLayout();
+            remove(tmpLayout.getLayoutComponent(BorderLayout.CENTER));
+        } catch (Exception e){
         }
-        return selected;
-    }
-    private static boolean contains (final int[] arr, final int key) {
-    	return Arrays.stream(arr).anyMatch(i -> i == key);
+
+        this.getContentPane().add(bottomButtonsPanel, BorderLayout.CENTER);
+        this.pack();
+    
     }
 
+    public int getOption() throws InterruptedException, ExecutionException{
+        futureOption = new CompletableFuture<String>();
+        int option = Integer.parseInt(futureOption.get());
+        return option;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        futureOption.complete(e.getActionCommand());
+        isPushed = true;
+        if(e.getSource() == this.close){
+            System.exit(0);
+        }
+    }
 }

@@ -2,6 +2,7 @@ package controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import model.And;
 import model.Base;
@@ -17,7 +18,7 @@ public class Controller {
     private Closure head;
     private String proposicion;
     private String options [] = {"p","q","r","^","v","¬","(",")","Evaluar"};
-    private String instruccion = "_ \n Seleccione el numero de la opción que desea agregar: \n";
+    private String instruccion = "_ \n\n Seleccione la opción que desea agregar: \n";
     private Map <String, boolean[]> answers;
     public Controller(View view){
         p = new Base('p');
@@ -32,15 +33,13 @@ public class Controller {
     }
     
     public void start(){
-        
-        
-        view.showMessage("Bienvenido a la calculadora de proposiciones");
-        
+        view.setVisible(true);
         head = createClosure();
         this.carryOut();
         boolean[] result = answers.get(head.toString());
         int classifier = 0;
         String type;
+        
         for(int i = 0; i < result.length; i++){
             if(result[i]){
                 classifier += 1;
@@ -58,7 +57,7 @@ public class Controller {
                 type = "Contingencia";
                 break;
         }
-        view.showTable("Resultado", answers, type);
+        view.showTable("La proposicion es una "+type, answers, "Tabla de resultados");
     }
 
     private Closure createClosure(){
@@ -71,83 +70,102 @@ public class Controller {
     }
 
     private Operation selectLeft() {
-        int option = view.showInputOptions(proposicion+instruccion, new int[]{0,1,2,5,6});
+        view.showInputOptions(proposicion+instruccion, new int[]{0,1,2,5,6});
+        int option;
         Operation left = null;
-        if(option >= 0 && option <= 2){
-            proposicion += options[option];
+        try {
+            option = view.getOption();
+            
+            if(option >= 0 && option <= 2){
+                proposicion += options[option];
+            }
+            switch (option) {
+                case 0:
+                    left = p;
+                    break;
+                case 1:
+                    left = q;
+                    break;
+                case 2:
+                    left = r;
+                    break;
+                case 5:
+                    left = createNot();
+                    break;
+                case 6:
+                    left = createClosure();
+                    break;
+                default:
+                    break;
+            }
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-        switch (option) {
-            case 0:
-                left = p;
-                break;
-            case 1:
-                left = q;
-                break;
-            case 2:
-                left = r;
-                break;
-            case 5:
-                left = createNot();
-                break;
-            case 6:
-                left = createClosure();
-                break;
-            default:
-                break;
-        }
-        
         return left;
     }
     private Operation selectRight(){
-        int option = view.showInputOptions(proposicion+instruccion, new int[]{0,1,2,5,6});
+        view.showInputOptions(proposicion+instruccion, new int[]{0,1,2,5,6});
+        int option;
         Operation right = null;
-        if(option >= 0 && option <= 2){
-            proposicion += options[option];
-        }
-        switch (option) {
-            case 0:
-                right = p;
-                break;
-            case 1:
-                right = q;
-                break;
-            case 2:
-                right = r;
-                break;
-            case 5:
-                right = createNot();
-                break;
-            case 6:
-                right = createClosure();
-                break;
-            default:
-                break;
-        }
+        try{
+            option = view.getOption();
+            if(option >= 0 && option <= 2){
+                proposicion += options[option];
+            }
+            switch (option) {
+                case 0:
+                    right = p;
+                    break;
+                case 1:
+                    right = q;
+                    break;
+                case 2:
+                    right = r;
+                    break;
+                case 5:
+                    right = createNot();
+                    break;
+                case 6:
+                    right = createClosure();
+                    break;
+                default:
+                    break;
+            }
+            
+        }catch(Exception e){}
         
         return right;
     }
     private Operation selectNot(){
-        int option = view.showInputOptions(proposicion+instruccion, new int[]{0,1,2,6});
+        view.showInputOptions(proposicion+instruccion, new int[]{0,1,2,6});
+        int option;
         Operation right = null;
-        if(option >= 0 && option <= 2){
-            proposicion += options[option];
-        }
-        switch (option){
-            case 0:
-                right = p;
-                break;
-            case 1:
-                right = q;
-                break;
-            case 2:
-                right = r;
-                break;
-            case 6:
-                right = createClosure();
-                break;
-            default:
-                break;
-        }
+        try{
+            option = view.getOption();
+            if(option >= 0 && option <= 2){
+                proposicion += options[option];
+            }
+            switch (option){
+                case 0:
+                    right = p;
+                    break;
+                case 1:
+                    right = q;
+                    break;
+                case 2:
+                    right = r;
+                    break;
+                case 6:
+                    right = createClosure();
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e){}
         
         return right;
     }
@@ -167,9 +185,13 @@ public class Controller {
         return operation;
     }
     private Operation selectType(Operation left) {
-        int option = view.showInputOptions(proposicion+instruccion, new int[]{3,4});
+        view.showInputOptions(proposicion+instruccion, new int[]{3,4});
+        int option;
         Operation operation = null;
-        operation = selectType(left, option);
+        try {
+            option = view.getOption();
+            operation = selectType(left, option);
+        }catch (Exception e){}
         return operation;
     }
     private Not createNot(){
@@ -226,19 +248,23 @@ public class Controller {
     }
     
     private Operation operationEnded(Operation operation){
-        int option = view.showInputOptions(proposicion+instruccion, new int[]{3,4,7});
+        view.showInputOptions(proposicion+instruccion, new int[]{3,4,7});
+        int option;
         Operation tmpRight = null;
-        if(option == 3 && operation instanceof Or){
-            tmpRight = operation.getRight();
-            operation.setRight(selectType(tmpRight, option));
+        try{
+            option = view.getOption();
+            if(option == 3 && operation instanceof Or){
+                tmpRight = operation.getRight();
+                operation.setRight(selectType(tmpRight, option));
 
-            return operation;
-        }
-        if (option == 7){
-            return operation;
-        }
+                return operation;
+            }
+            if (option == 7){
+                return operation;
+            }
 
-        operation = selectType(operation, option);
+            operation = selectType(operation, option);
+        }catch (Exception e){}
         return operation;
     }
 
