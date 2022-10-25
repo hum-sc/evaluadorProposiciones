@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Closure extends Operation {
@@ -13,6 +14,15 @@ public class Closure extends Operation {
 
     public void setOperation(Operation operation) {
         this.operation = operation;
+    }
+
+    @Override
+    public void inLavels(Map<Integer, ArrayList<String>> map, int i) {
+        this.operation.inLavels(map, i);
+    }
+    @Override
+    public Operation getOperation(){
+        return this.operation;
     }
 
     @Override

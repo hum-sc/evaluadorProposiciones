@@ -3,6 +3,10 @@
  */
 package model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Map;
+
 /**
  * @author hum-s
  *
@@ -55,6 +59,14 @@ public class Operation {
 		result += this.toString();
 		return result;
 	}
+
+	public void inLavels(Map<Integer,ArrayList<String>> map, int i){
+		if(map.get(i) == null) map.put(i, new ArrayList<String>());
+		map.get(i).add(this.toString());
+		this.left.inLavels(map, i+1);
+		this.right.inLavels(map, i+1);
+	}
+
 	
 	public void setLeft(Operation left) {
 		this.left = left;
@@ -73,5 +85,8 @@ public class Operation {
 	@Override
     public String toString() {
         return "operando";
+    }
+	public Operation getOperation(){
+        return null;
     }
 }

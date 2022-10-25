@@ -24,7 +24,6 @@ public class PanelResultados extends JSplitPane {
         for (Map.Entry<String, String> entry : map.entrySet()) {
             JLabel label = new JLabel(entry.getKey() + " = " + entry.getValue());
             listPanel.add(label);
-
         }
 
         

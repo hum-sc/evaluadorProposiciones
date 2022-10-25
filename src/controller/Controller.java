@@ -2,6 +2,11 @@ package controller;
 
 import model.Plus;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.ListIterator;
+import java.util.Map;
+
 import model.Base;
 import model.Closure;
 import model.Cross;
@@ -11,7 +16,6 @@ import model.Minus;
 import view.View;
 
 public class Controller {
-    private Base p, q, r;
     private View view;
     private Closure head;
     private String operation;
@@ -39,11 +43,33 @@ public class Controller {
         
         head = createClosure();
         String inOrder = head.inOrden();
-        String postOrden = head.postOrden();
-        String preOrden = head.preOrden();
-
-        System.out.println("en "+inOrder+"\n pre "+preOrden+"\n post "+postOrden);
-
+        String postOrder = head.postOrden();
+        String preOrder = head.preOrden();
+        HashMap<String,String> resultados = new HashMap<String,String>();
+        HashMap<Integer, ArrayList<String>> levels = new HashMap<Integer, ArrayList<String>>();
+        resultados.put("En orden", inOrder);
+        resultados.put("Pre orden", preOrder);
+        resultados.put("Post orden", postOrder);
+        head.inLavels(levels, 0);
+        String topdown = "";
+        for (Map.Entry<Integer, ArrayList<String>> entry : levels.entrySet()) {
+            ArrayList<String> values = entry.getValue();
+            for(String value : values){
+                topdown += value;
+            }
+        }
+        ListIterator<Map.Entry<Integer, ArrayList<String>>> it = new ArrayList<Map.Entry<Integer, ArrayList<String>>>(levels.entrySet()).listIterator(levels.size());
+        String bottomUp = "";
+        while (it.hasPrevious()){
+            Map.Entry<Integer, ArrayList<String>> entry = it.previous();
+            ArrayList<String> values = entry.getValue();
+            for(String value : values){
+                bottomUp += value;
+            }
+        }
+        resultados.put("Top Down", topdown);
+        resultados.put("Bottom Up", bottomUp);
+        view.showBTree("Resultados de la operacion "+operation, head, resultados);
     }
 
     private Closure createClosure(){
@@ -179,7 +205,7 @@ public class Controller {
         Operation tmpRight = null;
         try{
             option = view.getOption();
-            if((option == 2 || option == 5) && (operation instanceof Plus && operation instanceof Minus)){
+            if((option == 2 || option == 5) && (operation instanceof Plus || operation instanceof Minus)){
                 tmpRight = operation.getRight();
                 operation.setRight(createType(tmpRight, option));
 

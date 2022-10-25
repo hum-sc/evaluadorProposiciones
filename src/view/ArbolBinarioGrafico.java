@@ -21,7 +21,7 @@ public class ArbolBinarioGrafico extends JPanel {
         int m = (x0 + x1) / 2;
         g.setColor(Color.WHITE);
         g.fillOval(m, y, 50, 40);
-        g.setColor(Color.lightGray);
+        g.setColor(Color.GRAY);
         g.setFont(new Font("Arial",Font.BOLD,20));
         String t = x.toString();
         g.drawString(t, m+20, y+30);
