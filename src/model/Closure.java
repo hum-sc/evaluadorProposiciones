@@ -6,11 +6,9 @@ public class Closure extends Operation {
     protected Operation operation;
     protected Map<String, boolean[]> answers;
 
-    public Closure(Operation operation, Map<String, boolean[]> answers) {
+    public Closure(Operation operation) {
         super();
         this.operation = operation;
-        this.answers = answers;
-        answers.put(this.toString(), new boolean[8]);
     }
 
     public void setOperation(Operation operation) {
@@ -18,15 +16,15 @@ public class Closure extends Operation {
     }
 
     @Override
-    public boolean carryOut(int i) {
-        boolean[] tmpAnswers = answers.get(this.toString());
-        tmpAnswers[i] = operation.carryOut(i);
-        return tmpAnswers[i];
+    public String preOrden() {
+        return this.operation.preOrden();
     }
     @Override
-    public String toString() {
-        return "("+operation.toString()+")";
+    public String inOrden() {
+        return this.operation.inOrden();
     }
-
-
+    @Override
+    public String postOrden() {
+        return this.operation.postOrden();
+    }
 }

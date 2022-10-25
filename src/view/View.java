@@ -25,6 +25,7 @@ public class View extends JFrame implements ActionListener{
     private JButton close;
     
     private CompletableFuture<String> futureOption;
+    private String options [];
 
     public View(String title, String headerText){
         super(title);
@@ -86,11 +87,15 @@ public class View extends JFrame implements ActionListener{
 
     }
 
+    public void setOptions(String[] options){
+        this.options = options;
+    }
+
     public void showInputOptions(String instruction, int requiredOptions []){
 
         JButton[] buttons = new JButton[requiredOptions.length];
 
-        String options [] = {"p","q","r","^","v","¬","(",")"};
+        
 
         this.header.setText(instruction);
         

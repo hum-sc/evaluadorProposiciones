@@ -1,30 +1,24 @@
 package model;
 
 public class Base extends Operation {
-    private boolean value;
-    char name;
-    public Base(char n){
+    String name;
+    public Base(String n){
         super();
-        value = false;
         name = n;
     }
-    public Base(char n, boolean value){
-        super();
-        this.value = value;
-    }
 
-    public void setValue(boolean value) {
-        this.value = value;
+    @Override
+    public String preOrden() {
+        return name+"";
     }
 
     @Override
-    public boolean carryOut(int i) {
-        return this.value;
+    public String inOrden() {
+        return name + "";
     }
 
     @Override
-    public String toString() {
-        return ""+name;
+    public String postOrden() {
+        return name + "";
     }
-
 }

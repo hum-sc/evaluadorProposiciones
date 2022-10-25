@@ -20,14 +20,42 @@ public class Operation {
 		this.parent = null;
 	}
 
-
-	public boolean carryOut(int i){
-		boolean tmpLeft = left.carryOut(i);
-		boolean tmpRight = right.carryOut(i);
-
-		return operator(tmpLeft, tmpRight);
+	public String preOrden(){
+		String result = "";
+		result += this.toString();
+		if(left != null){
+			result += left.preOrden();
+		}
+		if(right != null){
+			result += right.preOrden();
+		}
+		return result;
 	}
 
+	public String inOrden(){
+		String result = "";
+		if(left != null){
+			result += left.inOrden();
+		}
+		result += this.toString();
+		if(right != null){
+			result += right.inOrden();
+		}
+		return result;
+	}
+
+	public String postOrden(){
+		String result = "";
+		if(left != null){
+			result += left.postOrden();
+		}
+		if(right != null){
+			result += right.postOrden();
+		}
+		result += this.toString();
+		return result;
+	}
+	
 	public void setLeft(Operation left) {
 		this.left = left;
 	}
@@ -42,11 +70,8 @@ public class Operation {
 		return right;
 	}
 
-	protected boolean operator(boolean left, boolean right) {
-		return false; 
-	}
 	@Override
     public String toString() {
-        return left.toString()+"operando"+right.toString();
+        return "operando";
     }
 }
