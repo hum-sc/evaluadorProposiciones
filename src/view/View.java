@@ -10,6 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import model.Operation;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -115,6 +117,14 @@ public class View extends JFrame implements ActionListener{
         
         this.pack();
     
+    }
+
+    public void showBTree (String header, Operation head, Map<String, String> resultados){
+        this.header.setText(header);
+        PanelResultados panelResultados = new PanelResultados(head, resultados);
+        this.deleteCenterComponent();
+        this.getContentPane().add(panelResultados, BorderLayout.CENTER);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     public int getOption() throws InterruptedException, ExecutionException{
