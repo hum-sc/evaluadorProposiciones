@@ -8,8 +8,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import model.Closure;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -22,9 +25,10 @@ public class View extends JFrame implements ActionListener{
 
     public boolean isPushed;
 
-    private JLabel header;
+    private JLabel header, mostrar;
     private JButton close;
     private CompletableFuture<String> futureOption;
+    
     public View(String title, String headerText){
         super(title);
         
@@ -44,40 +48,26 @@ public class View extends JFrame implements ActionListener{
     }
     
 
-    public void showTable(String header, Map<String, boolean[]> data, String title){
-
-        String[] columnNames = new String[data.size()];
-        String[][] rowData = new String[8][data.size()];
-
-        int i = 0;
-        for(String key : data.keySet()){
-            columnNames[i] = key;
-            boolean[] values = data.get(key);
-            for(int j = 0; j < values.length; j++){
-                rowData[j][i] = values[j] ? "1" : "0";
-            }
-            i++;
-        }
-
-        JTable table = new JTable(rowData, columnNames);
-        JScrollPane scrollPane = new JScrollPane(table);
-        
-        scrollPane.setPreferredSize(new Dimension(450,150));
-        table.setFillsViewportHeight(true);
-
-        try{
+    public void showOrden(String header, String head,String title){
+    	
+    	JPanel Resultado = new JPanel();
+    	Resultado.setPreferredSize(new Dimension(450,150));
+    	this.mostrar = new JLabel(head);
+    	Resultado.add(mostrar);
+    	try{
             BorderLayout tmpLayout = (BorderLayout) this.getContentPane().getLayout();
             remove(tmpLayout.getLayoutComponent(BorderLayout.CENTER));
         } catch (Exception e){
         }
 
-        this.getContentPane().add(scrollPane, BorderLayout.CENTER);
+        this.getContentPane().add(Resultado, BorderLayout.CENTER);
         
         this.setTitle(title);
         this.header.setText(header);
-
+        
         this.pack();
     }
+    
     public void showMessage(String message){
         JOptionPane.showMessageDialog(null,message);
     }
@@ -85,7 +75,7 @@ public class View extends JFrame implements ActionListener{
     public void showInputOptions(String instruction, int requiredOptions []){
         JButton[] buttons = new JButton[requiredOptions.length];
 
-        String options [] = {"p","q","r","^","v","¬","(",")"};
+        String options [] = {"A","B","C","D","*","/","+","-","^","(",")"};
 
         this.header.setText(instruction);
         

@@ -4,100 +4,89 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import model.And;
+import model.Mas;
+import model.Menos;
+import model.Multiplicacion;
+import model.Divicion;
+import model.Potencia;
 import model.Base;
 import model.Closure;
-import model.Not;
 import model.Operation;
-import model.Or;
 import view.View;
 
 public class Controller {
-    protected Base p, q, r;
+	protected Base A, B, C, D;
+
     private View view;
     private Closure head;
     private String proposicion;
-    private String options [] = {"p","q","r","^","v","¬","(",")","Evaluar"};
+    private String v;
+    private String options [] = {"A","B","C","D","*","/","+","-","^","(",")","Evaluar"};
     private String instruccion = "_ \n\n Seleccione la opción que desea agregar: \n";
-    private Map <String, boolean[]> answers;
+
     public Controller(View view){
-        p = new Base('p');
-        q = new Base('q');
-        r = new Base('r');
+        A = new Base('A');
+        B = new Base('B');
+        C = new Base('C');
+        D = new Base('D');
         proposicion = "";
         this.view = view;
-        answers = new HashMap<String, boolean[]>();
-        answers.put("p", new boolean[8]);
-        answers.put("q", new boolean[8]);
-        answers.put("r", new boolean[8]);
+
     }
     
     public void start(){
         view.setVisible(true);
-        head = createClosure();
-        this.carryOut();
-        boolean[] result = answers.get(head.toString());
-        int classifier = 0;
-        String type;
         
-        for(int i = 0; i < result.length; i++){
-            if(result[i]){
-                classifier += 1;
-            }
-        }
-
-        switch (classifier){
-            case 0:
-                type = "Contradiccion";
-                break;
-            case 8:
-                type = "Tautología";
-                break;
-            default:
-                type = "Contingencia";
-                break;
-        }
-        view.showTable("La proposicion es una "+type, answers, "Tabla de resultados");
+        head = createClosure();
+        
+        
+        view.showOrden("La proposicion es una ",v, "Tabla de resultados");
     }
 
     private Closure createClosure(){
         proposicion += "(";
         Operation left = selectLeft();
+        
         Operation operation = selectType(left);
-        Closure returnOperation = new Closure(operation, answers);
+        
+        Closure returnOperation = new Closure(operation);
+        this.v=operation.EnOrden();
         proposicion+=")";
+        
+        
         return returnOperation;
     }
 
     private Operation selectLeft() {
-        view.showInputOptions(proposicion+instruccion, new int[]{0,1,2,5,6});
+        view.showInputOptions(proposicion+instruccion, new int[]{0,1,2,3,9});
         int option;
         Operation left = null;
         try {
             option = view.getOption();
             
-            if(option >= 0 && option <= 2){
+            if(option >= 0 && option <= 3){
                 proposicion += options[option];
             }
             switch (option) {
                 case 0:
-                    left = p;
+                    left = A;
                     break;
                 case 1:
-                    left = q;
+                    left = B;
                     break;
                 case 2:
-                    left = r;
+                    left = C;
                     break;
-                case 5:
-                    left = createNot();
+                case 3:
+                    left = D;
                     break;
-                case 6:
+                case 9:
                     left = createClosure();
                     break;
                 default:
                     break;
             }
+            
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -108,84 +97,69 @@ public class Controller {
         return left;
     }
     private Operation selectRight(){
-        view.showInputOptions(proposicion+instruccion, new int[]{0,1,2,5,6});
+        view.showInputOptions(proposicion+instruccion, new int[]{0,1,2,3,9});
         int option;
         Operation right = null;
         try{
             option = view.getOption();
-            if(option >= 0 && option <= 2){
+            if(option >= 0 && option <= 3){
                 proposicion += options[option];
             }
             switch (option) {
-                case 0:
-                    right = p;
-                    break;
-                case 1:
-                    right = q;
-                    break;
-                case 2:
-                    right = r;
-                    break;
-                case 5:
-                    right = createNot();
-                    break;
-                case 6:
-                    right = createClosure();
-                    break;
-                default:
-                    break;
+            	case 0:
+            		right = A;
+            		break;
+            	case 1:
+            		right = B;
+            		break;
+            	case 2:
+            		right = C;
+                	break;
+            	case 3:
+            		right = D;
+                	break;
+            	case 9:
+            		right = createClosure();
+                	break;
+            default:
+                break;
             }
             
         }catch(Exception e){}
         
         return right;
     }
-    private Operation selectNot(){
-        view.showInputOptions(proposicion+instruccion, new int[]{0,1,2,6});
-        int option;
-        Operation right = null;
-        try{
-            option = view.getOption();
-            if(option >= 0 && option <= 2){
-                proposicion += options[option];
-            }
-            switch (option){
-                case 0:
-                    right = p;
-                    break;
-                case 1:
-                    right = q;
-                    break;
-                case 2:
-                    right = r;
-                    break;
-                case 6:
-                    right = createClosure();
-                    break;
-                default:
-                    break;
-            }
-        } catch (Exception e){}
-        
-        return right;
-    }
+
+
     private Operation selectType(Operation left, int option) {
         Operation operation = null;
+
         switch (option) {
-            case 3:
-                operation =  createAnd(left);
-                break;
             case 4:
-                operation = createOr(left);
+                operation =  createMul(left);
+                break;
+            case 5:
+                operation = createDiv(left);
+                break;
+            case 6:
+                operation = createMas(left);
+                break;
+            case 7:
+                operation = createMenos(left);
+                break;
+            case 8:
+                operation = createPot(left);
                 break;
             default:
                 break;
         }
         operation = operationEnded(operation);
+        
         return operation;
     }
+    
     private Operation selectType(Operation left) {
-        view.showInputOptions(proposicion+instruccion, new int[]{3,4});
+        view.showInputOptions(proposicion+instruccion, new int[]{4,5,6,7,8});
         int option;
         Operation operation = null;
         try {
@@ -194,78 +168,80 @@ public class Controller {
         }catch (Exception e){}
         return operation;
     }
-    private Not createNot(){
-        Not not = null;
-        proposicion+="¬";
-        Operation content = selectNot();
-        not = new Not(content, answers);
 
-        return not;
-    }
     
-    private And createAnd(Operation left){
-        
-        And and = null;
-        proposicion+="^";
+    private Multiplicacion createMul(Operation left){
+    	Multiplicacion and = null;
+        proposicion+="*";
         Operation right = selectRight();
-        and = new And(left, right);
+        and = new Multiplicacion(left, right);
         return and;
     }
-
-    private Or createOr(Operation left){
-        Or or = null;
-        proposicion+="v";
+    private Divicion createDiv(Operation left){
+    	Divicion and = null;
+        proposicion+="/";
         Operation right = selectRight();
-        or = new Or(left, right);
+        and = new Divicion(left, right);
+        return and;
+    }
+    
+    private Mas createMas(Operation left){
+        Mas or = null;
+        proposicion+="+";
+        Operation right = selectRight();
+        or = new Mas(left, right);
         return or;
     }
-
-    private void carryOut(){
-        int l = 0;
-        for(int i=0; i<2; i++){
-           boolean valueP = i == 0 ? false: true;
-           p.setValue(valueP);
-           for (int j=0; j<2; j++){
-               boolean valueQ = j == 0 ? false: true;
-               q.setValue(valueQ);
-               for (int k=0; k<2; k++){
-                    boolean valueR = k == 0 ? false: true;
-                    boolean[] tmpP = answers.get("p");
-                    boolean[] tmpQ = answers.get("q");
-                    boolean[] tmpR = answers.get("r");
-                    tmpP[l] = valueP;
-                    tmpQ[l] = valueQ;
-                    tmpR[l] = valueR;
-                    answers.put("p", tmpP);
-                    answers.put("q", tmpQ);
-                    answers.put("r", tmpR);
-                    r.setValue(valueR);
-                    head.carryOut(l);
-                    l+=1;
-               }
-           }
-        }
+    private Menos createMenos(Operation left){
+        Menos or = null;
+        proposicion+="-";
+        Operation right = selectRight();
+        or = new Menos(left, right);
+        return or;
+    }
+    private Potencia createPot(Operation left){
+    	Potencia pot = null;
+        proposicion+="^";
+        Operation right = selectRight();
+        pot = new Potencia(left, right);
+        return pot;
     }
     
     private Operation operationEnded(Operation operation){
-        view.showInputOptions(proposicion+instruccion, new int[]{3,4,7});
+        view.showInputOptions(proposicion+instruccion, new int[]{4,5,6,7,10});
         int option;
         Operation tmpRight = null;
         try{
             option = view.getOption();
-            if(option == 3 && operation instanceof Or){
+            if(option == 4 && operation instanceof Mas){
                 tmpRight = operation.getRight();
                 operation.setRight(selectType(tmpRight, option));
-
                 return operation;
             }
-            if (option == 7){
+            if(option == 4 && operation instanceof Menos){
+                tmpRight = operation.getRight();
+                operation.setRight(selectType(tmpRight, option));
+                return operation;
+            }
+            if(option == 5 && operation instanceof Mas){
+                tmpRight = operation.getRight();
+                operation.setRight(selectType(tmpRight, option));
+                return operation;
+            }
+            if(option == 5 && operation instanceof Menos){
+                tmpRight = operation.getRight();
+                operation.setRight(selectType(tmpRight, option));
+                return operation;
+            }
+            
+            if (option == 10){
                 return operation;
             }
 
             operation = selectType(operation, option);
         }catch (Exception e){}
+        
         return operation;
     }
-
+    
 }

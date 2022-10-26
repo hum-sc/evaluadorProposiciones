@@ -20,14 +20,6 @@ public class Operation {
 		this.parent = null;
 	}
 
-
-	public boolean carryOut(int i){
-		boolean tmpLeft = left.carryOut(i);
-		boolean tmpRight = right.carryOut(i);
-
-		return operator(tmpLeft, tmpRight);
-	}
-
 	public void setLeft(Operation left) {
 		this.left = left;
 	}
@@ -41,9 +33,29 @@ public class Operation {
 	public Operation getRight() {
 		return right;
 	}
+	
+	public String EnOrden() {
+		String a= "";
+		String b= "";
+		left.EnOrden();
+		right.EnOrden();
+		a=left.toString();
+		b=right.toString();
+		return a+b;
+	}
+	public String PosOrden() {
+		String b ="";
+		String x = "";
 
-	protected boolean operator(boolean left, boolean right) {
-		return false; 
+		if (!(left == null)) {
+			
+			left.PosOrden();
+			b = left.toString();
+			right.PosOrden();
+			
+			x = right.toString();
+		}
+		return b+x;
 	}
 	@Override
     public String toString() {
