@@ -208,7 +208,6 @@ public class Controller {
             if((option == 2 || option == 5) && (operation instanceof Plus || operation instanceof Minus)){
                 tmpRight = operation.getRight();
                 operation.setRight(createType(tmpRight, option));
-
                 return operation;
             }
             if (option == 4){
