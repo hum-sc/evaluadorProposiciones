@@ -1,0 +1,14 @@
+window_sizes 1920 991 450 1464 809 128
+
+diagrams
+  active  classdiagram_ref 128002 // Diagrama MVC
+    1257 534 118 A4 0 0
+end
+show_stereotypes
+selected operation_ref 137090 // carryOut
+open
+  class_ref 129154 // View
+  class_ref 129282 // Controller
+  usecaseview_ref 128002 // Casos de Usos
+end
+end

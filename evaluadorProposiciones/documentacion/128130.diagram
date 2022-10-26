@@ -1,0 +1,24 @@
+format 224
+
+classcanvas 128002 class_ref 128130 // user
+  simpleclassdiagramsettings end
+  xyz 26.8 91 2000
+end
+usecasecanvas 128130 usecase_ref 128002 // digitar operación
+  xyzwh 169.7 45.1 3005 64 32 label_xy 155 77
+end
+subject 128770 "evaluador"
+  xyzwh 105.5 12.4 2000 202 224
+usecasecanvas 128898 usecase_ref 128130 // clasificar operación
+  xyzwh 174.5 112.2 3005 64 32 label_xy 149 143
+end
+usecasecanvas 129026 usecase_ref 128258 // evaluar posibles combinaciones
+  xyzwh 174.5 171.5 3005 64 32 label_xy 107 204
+end
+line 129154 --->
+  from ref 128002 z 3006 to ref 128130
+line 129282 --->
+  from ref 128002 z 3006 to ref 128898
+line 129410 --->
+  from ref 128002 z 3006 to ref 129026
+end
