@@ -1,4 +1,10 @@
+/**
+ * 
+ */
+/**
+ * @author  Humberto A. Salinas C. Hector Contreras G. Cesar I. Ramirez M.,
+ *
+ */
 module evaluadorProposiciones {
-	exports model;
-	requires java.desktop;
+    requires java.desktop;
 }
