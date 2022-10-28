@@ -222,7 +222,7 @@ public class Controller {
                 operation.setRight(createType(tmpRight, option));
                 return operation;
             }
-            if((option == 6) && (operation instanceof Cross || operation instanceof Division)){
+            if((option == 6) && (operation instanceof Cross || operation instanceof Division || operation instanceof Plus || operation instanceof Minus)){
                 tmpRight = operation.getRight();
                 operation.setRight(createType(tmpRight, option));
                 return operation;
