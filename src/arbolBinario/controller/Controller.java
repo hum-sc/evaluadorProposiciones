@@ -15,7 +15,7 @@ import arbolBinario.model.Operation;
 import arbolBinario.model.Minus;
 import arbolBinario.view.View;
 
-public class Controller {
+public class Controller extends Thread {
     private View view;
     private Closure head;
     private String operation;
@@ -39,7 +39,8 @@ public class Controller {
         this.view.setOptions(options);
     }
     
-    public void start(){
+    @Override
+    public void run(){
         
         head = createClosure();
         String inOrder = head.inOrden();

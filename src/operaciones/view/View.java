@@ -1,4 +1,4 @@
-package arbolBinario.view;
+package operaciones.view;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -10,13 +10,13 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import arbolBinario.model.Operation;
 import view.ButtonsPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 
 
 public class View extends JFrame implements ActionListener{
@@ -28,7 +28,6 @@ public class View extends JFrame implements ActionListener{
     private JButton close;
     
     private CompletableFuture<String> futureOption;
-    private String options [];
 
     public View(String title, String headerText){
         super(title);
@@ -91,15 +90,11 @@ public class View extends JFrame implements ActionListener{
 
     }
 
-    public void setOptions(String[] options){
-        this.options = options;
-    }
-
     public void showInputOptions(String instruction, int requiredOptions []){
 
         JButton[] buttons = new JButton[requiredOptions.length];
 
-        
+        String options [] = {"p","q","r","^","v","¬","(",")"};
 
         this.header.setText(instruction);
         
@@ -119,14 +114,6 @@ public class View extends JFrame implements ActionListener{
         
         this.pack();
     
-    }
-
-    public void showBTree (String header, Operation head, Map<String, String> resultados){
-        this.header.setText(header);
-        PanelResultados panelResultados = new PanelResultados(head, resultados);
-        this.deleteCenterComponent();
-        this.getContentPane().add(panelResultados, BorderLayout.CENTER);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     public int getOption() throws InterruptedException, ExecutionException{

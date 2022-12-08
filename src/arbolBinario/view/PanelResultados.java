@@ -1,11 +1,10 @@
 package arbolBinario.view;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import javax.swing.SwingConstants;
+
 
 import java.awt.Toolkit;
 
