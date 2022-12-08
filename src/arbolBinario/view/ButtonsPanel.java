@@ -1,4 +1,4 @@
-package view;
+package arbolBinario.view;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
