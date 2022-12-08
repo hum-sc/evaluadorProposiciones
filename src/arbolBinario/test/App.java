@@ -1,7 +1,7 @@
-package test;
+package arbolBinario.test;
 
-import controller.Controller;
-import view.View;
+import arbolBinario.controller.Controller;
+import arbolBinario.view.View;
 public class App {
     public App() {
     }
