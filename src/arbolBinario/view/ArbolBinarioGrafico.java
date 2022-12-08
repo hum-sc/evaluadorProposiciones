@@ -1,8 +1,8 @@
-package view;
+package arbolBinario.view;
 import javax.swing.*;
 
-import model.Closure;
-import model.Operation;
+import arbolBinario.model.Closure;
+import arbolBinario.model.Operation;
 
 import java.awt.*;
 

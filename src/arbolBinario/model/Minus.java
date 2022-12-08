@@ -1,5 +1,4 @@
-package model;
-
+package arbolBinario.model;
 public class Minus extends Operation {
     public Minus(Operation left, Operation right) {
         super(left, right);

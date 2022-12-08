@@ -5,4 +5,4 @@
  * @author Humberto A. Salinas C. 
  *
  */
-package model;
+package arbolBinario.model;

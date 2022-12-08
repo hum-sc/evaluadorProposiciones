@@ -1,19 +1,19 @@
-package controller;
+package arbolBinario.controller;
 
-import model.Plus;
+import arbolBinario.model.Plus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.Map;
 
-import model.Base;
-import model.Closure;
-import model.Cross;
-import model.Division;
-import model.Operation;
-import model.Minus;
-import view.View;
+import arbolBinario.model.Base;
+import arbolBinario.model.Closure;
+import arbolBinario.model.Cross;
+import arbolBinario.model.Division;
+import arbolBinario.model.Operation;
+import arbolBinario.model.Minus;
+import arbolBinario.view.View;
 
 public class Controller {
     private View view;

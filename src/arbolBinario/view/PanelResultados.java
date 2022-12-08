@@ -1,4 +1,4 @@
-package view;
+package arbolBinario.view;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -9,7 +9,7 @@ import javax.swing.SwingConstants;
 
 import java.awt.Toolkit;
 
-import model.Operation;
+import arbolBinario.model.Operation;
 import java.awt.Dimension;
 import java.util.Map;
 public class PanelResultados extends JSplitPane {

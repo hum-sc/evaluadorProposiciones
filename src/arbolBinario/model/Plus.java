@@ -1,4 +1,4 @@
-package model;
+package arbolBinario.model;
 
 public class Plus extends Operation {
     public Plus(Operation left, Operation right) {

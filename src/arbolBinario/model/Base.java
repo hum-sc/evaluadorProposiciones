@@ -1,4 +1,4 @@
-package model;
+package arbolBinario.model;
 
 import java.util.ArrayList;
 import java.util.Map;

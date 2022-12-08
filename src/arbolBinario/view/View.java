@@ -1,4 +1,4 @@
-package view;
+package arbolBinario.view;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import model.Operation;
+import arbolBinario.model.Operation;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

@@ -1,4 +1,4 @@
-package model;
+package arbolBinario.model;
 
 public class Division extends Operation {
     public Division(Operation left, Operation right){
